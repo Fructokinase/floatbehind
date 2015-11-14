@@ -16,6 +16,10 @@ userController.testData = function (req, res) {
 
     data.result = sampleData;
 
+    res.setHeader("Access-Control-Allow-Origin","http://floatbehind.mybluemix.net/");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
     return res.status(200).json(data);
 }
 
