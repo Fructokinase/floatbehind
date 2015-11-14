@@ -25,10 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(suppressStatusCode);
 app.use(resJsonWithStatusCode);
 
-app.use('/', routes);
-
 //controllers
 var slackController = require('./controller/slack');
+var userController = require('./controller/user');
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -62,10 +61,16 @@ app.use(function(err, req, res, next) {
 });
 
 //test
+app.get("/", function (req, res) {
+  res.send("The server is working");
+})
+
 app.get("/test", function(req, res) {
   res.json({ messsage: "OK"})
 })
 
+//sample data
+app.get("/sampleData", userController.testData);
 app.post("/postUrl", slackController.urlFromSlack);
 
 
