@@ -1,4 +1,5 @@
-
+var db = require("../db/knexDB");
+var moment = require("moment");
 var userController = {};
 
 userController.testData = function (req, res) {
@@ -16,11 +17,83 @@ userController.testData = function (req, res) {
 
     data.result = sampleData;
 
-    res.setHeader("Access-Control-Allow-Origin","http://floatbehind.mybluemix.net/");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 
     return res.status(200).json(data);
+}
+
+userController.testDatabase = function (req, res) {
+    var data = {};
+
+    db("urls").insert({
+        name: req.body.name,
+        url: req.body.url
+    }).then(function (result){
+        data.result = result;
+        return res.status(200).json(data);
+    }).catch(function (err) {
+        console.log(err);
+        return res.status(500).json({error: err});
+    })
+}
+
+userController.getList = function (req, res) {
+    var data = {}
+
+    db.select().from("urls")
+    .then(function (result) {
+        mappedResult = result.map(function (url) {
+            url.date = moment(moment(url.date).unix()._d).format();
+            return url;
+        })
+        data.result = mappedResult;
+        return res.status(200).json(data);
+    }).catch(function (err) {
+        console.log(err)
+        return res.status(500).json({error: err});
+    })
+}
+
+userController.getListByTime = function (req, res) {
+    var data = {};
+
+    var start = moment(req.body.start).unix();
+    var end = moment(req.body.end).unix();
+
+    db.select()
+    .from("urls")
+    .whereBetween('date', [start, end])
+    .then(function (result) {
+        mappedResult = result.map(function (url) {
+            url.date = moment(moment(url.date).unix()._d).format();
+            return url;
+        })
+        data.result = mappedResult;
+        return res.status(200).json(data);
+    }).catch(function (err) {
+        return res.status(500).json({error: err});
+    });
+}
+
+userController.getListById = function (req, res) {
+    var data = {}
+    var queryId = Number(req.query.id);
+
+    db.select()
+    .from("urls")
+    .where("id", ">=", queryId)
+    .then(function (result) {
+        mappedResult = result.map(function (url) {
+            url.date = moment(moment(url.date).unix()._d).format();
+            return url;
+        })
+        data.result = mappedResult;
+        return res.status(200).json(data);
+    }).catch(function (err) {
+        return res.status(500).json({error: err});
+    });
 }
 
 module.exports = userController;

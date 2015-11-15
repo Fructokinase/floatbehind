@@ -11,6 +11,17 @@ var suppressStatusCode = require("./middlewares/suppressStatusCode");
 
 var app = express();
 
+//database setup
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'us-cdbr-iron-east-03.cleardb.net',
+  user     : 'be088a949f885f',
+  password : 'b59f03e2',
+  database : 'ad_030d6b0be1e3f5e',
+  port     : 3306
+});
+
+
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
@@ -69,10 +80,17 @@ app.get("/test", function(req, res) {
   res.json({ messsage: "OK"})
 })
 
+app.post("/testDatabse", userController.testDatabase);
+
 //sample data
 app.get("/sampleData", userController.testData);
+
+//from slack
 app.post("/postUrl", slackController.urlFromSlack);
 
-
+//to users
+app.get("/getList", userController.getList);
+app.get("/getListByTime", userController.getListByTime);
+app.get("/getListById", userController.getListById);
 
 module.exports = app;
