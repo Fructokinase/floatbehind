@@ -27,6 +27,10 @@ userController.testData = function (req, res) {
 userController.testDatabase = function (req, res) {
     var data = {};
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
     db("urls").insert({
         name: req.body.name,
         url: req.body.url
@@ -34,7 +38,6 @@ userController.testDatabase = function (req, res) {
         data.result = result;
         return res.status(200).json(data);
     }).catch(function (err) {
-        console.log(err);
         return res.status(500).json({error: err});
     })
 }
@@ -59,8 +62,12 @@ userController.getList = function (req, res) {
 userController.getListByTime = function (req, res) {
     var data = {};
 
-    var start = moment(req.body.start).unix();
-    var end = moment(req.body.end).unix();
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
+    var start = moment(req.query.start).unix();
+    var end = moment(req.query.end).unix();
 
     db.select()
     .from("urls")
@@ -80,6 +87,10 @@ userController.getListByTime = function (req, res) {
 userController.getListById = function (req, res) {
     var data = {}
     var queryId = Number(req.query.id);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 
     db.select()
     .from("urls")
