@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var resJsonWithStatusCode = require("./middlewares/resJsonWithStatusCode");
-var suppressStatusCode = require("./middlewares/suppressStatusCode");
+var resJsonWithStatusCode = require("./middleware/resJsonWithStatusCode");
+var suppressStatusCode = require("./middleware/suppressStatusCode");
 
 var app = express();
 
@@ -92,5 +92,6 @@ app.post("/postUrl", slackController.urlFromSlack);
 app.get("/getList", userController.getList);
 app.get("/getListByTime", userController.getListByTime);
 app.get("/getListById", userController.getListById);
+
 
 module.exports = app;
