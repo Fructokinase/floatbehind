@@ -105,6 +105,13 @@ userController.getListById = function (req, res) {
     }).catch(function (err) {
         return res.status(500).json({error: err});
     });
-}
+};
+
+userController.deleteList = function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+
+};
 
 module.exports = userController;

@@ -13,7 +13,7 @@ var app = express();
 
 //database setup
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+app.dbConnection = mysql.createConnection({
   // TODO: ENV に書くようにする
   host     : 'localhost',
   user     : 'floatbehind',
@@ -93,5 +93,6 @@ app.post("/postUrl", slackController.urlFromSlack);
 app.get("/getList", userController.getList);
 app.get("/getListByTime", userController.getListByTime);
 app.get("/getListById", userController.getListById);
+
 
 module.exports = app;
