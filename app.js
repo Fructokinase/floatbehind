@@ -14,10 +14,11 @@ var app = express();
 //database setup
 var mysql = require('mysql');
 app.dbConnection = mysql.createConnection({
-  host     : 'us-cdbr-iron-east-03.cleardb.net',
-  user     : 'be088a949f885f',
-  password : 'b59f03e2',
-  database : 'ad_030d6b0be1e3f5e',
+  // TODO: ENV に書くようにする
+  host     : 'localhost',
+  user     : 'floatbehind',
+  password : 'floatbehind_pwd',
+  database : 'floatbehind_db',
   port     : 3306
 });
 
@@ -32,7 +33,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'web/dist')));
 app.use(suppressStatusCode);
 app.use(resJsonWithStatusCode);
 
