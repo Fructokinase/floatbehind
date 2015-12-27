@@ -6,14 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var resJsonWithStatusCode = require("./middleware/resJsonWithStatusCode");
-var suppressStatusCode = require("./middleware/suppressStatusCode");
+var resJsonWithStatusCode = require("./middlewares/resJsonWithStatusCode");
+var suppressStatusCode = require("./middlewares/suppressStatusCode");
 
 var app = express();
 
 //database setup
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+app.dbConnection = mysql.createConnection({
   host     : 'us-cdbr-iron-east-03.cleardb.net',
   user     : 'be088a949f885f',
   password : 'b59f03e2',
