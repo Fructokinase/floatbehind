@@ -8,12 +8,12 @@ userController.testData = function (req, res) {
 
     var sampleData = [];
 
-    sampleData.push({id: 1, name: "Junpei", from:"gfdgdf", title: "Paris terroism", date: "2015-11-14",
+    sampleData.push({page_id: 1, user_name: "Junpei", from:"gfdgdf", title: "Paris terroism", datetime: "2015-11-14",
         url:"http://www.nytimes.com/2015/11/15/world/europe/paris-terrorist-attacks.html?action=click&pgtype=Homepage&clickSource=story-heading&module=span-abc-region&region=span-abc-region&WT.nav=span-abc-region&_r=0"});
-    sampleData.push({id: 2, name: "Shinya", from:"pihh", title: "BONE", date: "2010-01-23", url:"https://i.imgur.com/8gvR3aV.jpg"});
-    sampleData.push({id: 3, name: "Alex", from:"ophuig", title: "Japan world cup 3", date: "2014-12-12", url:"https://www.youtube.com/watch?v=d_QPz0ZX1Y0"});
-    sampleData.push({id: 4, name: "Junpei2", from:"fvksdv", title: "What givery does", date: "2015-11-11", url:"https://givery.co.jp/services/"});
-    sampleData.push({id: 5, name: "Shinya2", from:"gjiimi", title: "cat", date: "2015-11-10", url:"http://imgur.com/e9E1ZPI"})
+    sampleData.push({page_id: 2, user_name: "Shinya", from:"pihh", title: "BONE", datetime: "2010-01-23", url:"https://i.imgur.com/8gvR3aV.jpg"});
+    sampleData.push({page_id: 3, user_name: "Alex", from:"ophuig", title: "Japan world cup 3", datetime: "2014-12-12", url:"https://www.youtube.com/watch?v=d_QPz0ZX1Y0"});
+    sampleData.push({page_id: 4, user_name: "Junpei2", from:"fvksdv", title: "What givery does", datetime: "2015-11-11", url:"https://givery.co.jp/services/"});
+    sampleData.push({page_id: 5, user_name: "Shinya2", from:"gjiimi", title: "cat", datetime: "2015-11-10", url:"http://imgur.com/e9E1ZPI"})
 
     data.result = sampleData;
 
@@ -31,8 +31,8 @@ userController.testDatabase = function (req, res) {
     res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT");
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 
-    db("urls").insert({
-        name: req.body.name,
+    db("pages").insert({
+        user_name: req.body.name,
         url: req.body.url
     }).then(function (result){
         data.result = result;
@@ -45,10 +45,10 @@ userController.testDatabase = function (req, res) {
 userController.getList = function (req, res) {
     var data = {}
 
-    db.select().from("urls")
+    db.select().from("pages")
     .then(function (result) {
         mappedResult = result.map(function (url) {
-            url.date = moment(moment(url.date).unix()._d).format();
+            url.datetime = moment(moment(url.datetime).unix()._d).format();
             return url;
         })
         data.result = mappedResult;
@@ -70,11 +70,11 @@ userController.getListByTime = function (req, res) {
     var end = moment(req.query.end).unix();
 
     db.select()
-    .from("urls")
-    .whereBetween('date', [start, end])
+    .from("pages")
+    .whereBetween('datetime', [start, end])
     .then(function (result) {
         mappedResult = result.map(function (url) {
-            url.date = moment(moment(url.date).unix()._d).format();
+            url.datetime = moment(moment(url.datetime).unix()._d).format();
             return url;
         })
         data.result = mappedResult;
@@ -93,11 +93,11 @@ userController.getListById = function (req, res) {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 
     db.select()
-    .from("urls")
-    .where("id", ">=", queryId)
+    .from("pages")
+    .where("page_id", ">=", queryId)
     .then(function (result) {
         mappedResult = result.map(function (url) {
-            url.date = moment(moment(url.date).unix()._d).format();
+            url.datetime = moment(moment(url.datetime).unix()._d).format();
             return url;
         })
         data.result = mappedResult;

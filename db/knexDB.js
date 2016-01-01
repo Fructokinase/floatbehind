@@ -1,16 +1,6 @@
-var connectionString = 'postgres://localhost:5432/postgres';
-var Promise=require('bluebird');
-var app = require('../app');
+var knexConfig = require('../knexfile');
+var env = process.env.ENV || 'development';
 
-
-var knex = require('knex')({
-  client: 'mysql',
-  connection: app.dbConnection,
-  debug: false,
-  pool: {
-      min: 1,
-      max: 2 
-  }
-});
+var knex = require('knex')(knexConfig[env]);
 
 module.exports = knex;

@@ -13,7 +13,7 @@ slackController.urlFromSlack = function (req, res) {
     data.message = "オーケー";
 
     var info = {};
-    
+
     info.user_name = req.body.user_name;
     info.url = req.body.text;
     info.from = "Slack";
@@ -30,10 +30,10 @@ slackController.urlFromSlack = function (req, res) {
     var http = require('http');
     var urlOpts = {host: host, path: path};
     var re = /(<\s*title[^>]*>(.+?)<\s*\/\s*title)>/gi;
-    
+
 
     if (info.url.match(regex)){
-        db("urls").insert({
+        db("pages").insert({
             user_name: info.user_name,
             from: info.from,
             date:  moment().format("X"),
