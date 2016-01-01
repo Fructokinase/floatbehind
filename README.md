@@ -15,6 +15,7 @@ $ vagrant up
 
 ### MariaDB config
 
+ENV=development
 - user: floatbehind
 - password: floatbehind_pwd
 - database: floatbehind_db
