@@ -11,18 +11,6 @@ var suppressStatusCode = require("./middlewares/suppressStatusCode");
 
 var app = express();
 
-//database setup
-var mysql = require('mysql');
-app.dbConnection = mysql.createConnection({
-  // TODO: ENV に書くようにする
-  host     : 'localhost',
-  user     : 'floatbehind',
-  password : 'floatbehind_pwd',
-  database : 'floatbehind_db',
-  port     : 3306
-});
-
-
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
