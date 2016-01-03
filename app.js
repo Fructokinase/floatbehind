@@ -83,5 +83,9 @@ app.get("/getList", userController.getList);
 app.get("/getListByTime", userController.getListByTime);
 app.get("/getListById", userController.getListById);
 
+// Authentication via Slack
+app.get("/oauth/slack", slackController.requestOAuth);
+app.get("/oauth/slack/callback", slackController.callbackOAuth);
+
 
 module.exports = app;

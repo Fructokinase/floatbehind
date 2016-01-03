@@ -1,7 +1,7 @@
 var Page = require("../db/page");
 var moment = require("moment");
 var slackController = {};
-var http = require("http");
+var slackAdapter = require("../adapters/slack");
 
 slackController.urlFromSlack = function (req, res) {
 
@@ -52,7 +52,20 @@ slackController.urlFromSlack = function (req, res) {
   } else {
     return res.status(400).json({message: "URLを貼れ！"});
   }
-}
+};
 
+slackController.requestOAuth = function (req, res) {
+  res.redirect(slackAdapter.getOAuthUrl());
+};
+
+slackController.callbackOAuth = function (req, res) {
+  slackAdapter
+    .fetchTokenByParam(req.query)
+    .then((token) => {
+      // TODO: store token
+      console.log(token);
+      res.send("OK");
+    });
+};
 
 module.exports = slackController;
